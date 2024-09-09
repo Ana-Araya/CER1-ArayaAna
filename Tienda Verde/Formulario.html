@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Verde - Catálogo</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("img/encuesta.jpg"); 
+            background-size: cover;     
+            background-position: center; 
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+        }
+
+        .contenido {
+            height: 1500px; 
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); 
+        }
+    </style>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 40%; 
+            margin: 0 auto;
+        }
+        h2 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        select, input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .form-row > div {
+            width: 48%; 
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="C:\Users\Paris Ovalle\Desktop\Tienda Verde\assets\a.png" alt="Logo Tienda Verde" width="300" height="60" class="d-inline-block align-top">
+            
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Página Principal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Catálogo.html">Catálogo de Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Formulario.html">Solicitud de Reciclaje</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <h2>Formulario de Solicitud de Elementos Reciclables</h2>
+    
+    <form id="recyclingForm">
+        
+        <label for="tipoResiduo">Tipo de Residuo</label>
+        <select id="tipoResiduo" required>
+            <option value="">Seleccione un tipo de residuo</option>
+            <option value="plastico">Plástico</option>
+            <option value="papel">Papel</option>
+            <option value="vidrio">Vidrio</option>
+            <option value="metales">Metales</option>
+            <option value="electronicos">Electrónicos</option>
+        </select>
+
+       
+        <label for="subcategoriaResiduo">Subcategoría de Residuo</label>
+        <select id="subcategoriaResiduo" required>
+            <option value="">Seleccione una subcategoría</option>
+        </select>
+
+        
+        <!-- Agrupar Nombre y Correo en la misma fila -->
+        <div class="form-row">
+            <div>
+                <label for="nombreSolicitante">Nombre del Solicitante</label>
+                <input type="text" id="nombreSolicitante" name="nombreSolicitante" required>
+            </div>
+            <div>
+                <label for="correo">Correo Electrónico</label>
+                <input type="email" id="correo" name="correo" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div>
+                <label for="direccion">Dirección de Recolección</label>
+                <input type="text" id="direccion" name="direccion" required>
+            </div>
+            <div>
+                <label for="cantidad">Cantidad de Residuos</label>
+                <input type="text" id="cantidad" name="cantidad" required>
+            </div>
+        </div>
+
+
+       
+        <label for="comentarios">Comentarios Adicionales</label>
+        <textarea id="comentarios" name="comentarios" rows="4"></textarea>
+
+       
+        <button type="submit">Enviar Solicitud</button>
+
+        <p id="errorMessage" class="error"></p>
+    </form>
+
+    <script>
+       
+        const subcategorias = {
+            plastico: ["Botellas", "Envases", "Bolsas"],
+            papel: ["Periódicos", "Cartón", "Papel de oficina"],
+            vidrio: ["Botellas", "Frascos", "Cristalería"],
+            metales: ["Latas", "Cables", "Electrodomésticos pequeños"],
+            electronicos: ["Teléfonos móviles", "Baterías", "Componentes de computadoras"]
+        };
+
+        
+        const tipoResiduo = document.getElementById('tipoResiduo');
+        const subcategoriaResiduo = document.getElementById('subcategoriaResiduo');
+        const form = document.getElementById('recyclingForm');
+        const errorMessage = document.getElementById('errorMessage');
+
+        
+        tipoResiduo.addEventListener('change', function() {
+            const selectedTipo = tipoResiduo.value;
+            subcategoriaResiduo.innerHTML = '<option value="">Seleccione una subcategoría</option>';
+
+            if (selectedTipo) {
+                const opciones = subcategorias[selectedTipo];
+                opciones.forEach(function(opcion) {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = opcion;
+                    optionElement.textContent = opcion;
+                    subcategoriaResiduo.appendChild(optionElement);
+                });
+            }
+        });
+
+        
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            
+            if (!tipoResiduo.value || !subcategoriaResiduo.value || !document.getElementById('nombreSolicitante').value || !document.getElementById('correo').value || !document.getElementById('direccion').value || !document.getElementById('cantidad').value) {
+                errorMessage.textContent = 'Por favor, complete todos los campos obligatorios.';
+                return;
+            }
+            
+            const cantidad = document.getElementById('cantidad').value;
+            if (!Number.isInteger(Number(cantidad))) {
+                errorMessage.textContent = 'La cantidad debe ser un número entero.';
+                return;
+            }
+            
+            const nombre = document.getElementById('nombreSolicitante').value;
+            if (/[^a-zA-Z\s]/.test(nombre)) {
+                errorMessage.textContent = 'El nombre debe contener solo letras y espacios.';
+                return;
+            }
+
+            const email = document.getElementById('correo').value;
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(email)) {
+                errorMessage.textContent = 'Por favor, ingrese un correo electrónico válido.';
+                return;
+            }
+
+            
+            errorMessage.textContent = '';
+            alert('Formulario enviado correctamente.');
+            form.reset();
+        });
+    </script>
+
+
+    <footer class="bg-dark text-white text-center py-4">
+        <p>&copy; 2024 Tienda Verde. Todos los derechos reservados.</p>
+    </footer>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
